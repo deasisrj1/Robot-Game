@@ -1,0 +1,8 @@
+{
+  "name": "Player 1",
+  "robot": {
+    "skin": "Wall-E-icon.png",
+    "type": "robot",
+    "rotation": 180
+  }
+}

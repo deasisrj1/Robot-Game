@@ -1,0 +1,86 @@
+{
+  "height": 5,
+  "width": 5,
+  "timeLimit": 60,
+  "target": {
+    "skin": "eve.ico",
+    "type": "target"
+  },
+  "board": [
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    },
+    {
+      "fill": "none"
+    }
+  ]
+}
