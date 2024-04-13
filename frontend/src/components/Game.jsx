@@ -6,7 +6,8 @@ import MovementButtons from "./MovementButtons";
 import GameBoard from "./GameBoard";
 import { BoardHeader } from "./BoardHeader";
 
-const Game = ({ player, isGameOver, setIsGameOver }) => {
+const Game = ({ player, leaderBoard, handleTopScore }) => {
+  const [isGameOver, setIsGameOver] = useState(true);
   const [boardDetails, setBoardDetails] = useState({});
   const [reached, setReached] = useState(false);
   const [robot, setRobot] = useState();
@@ -17,10 +18,12 @@ const Game = ({ player, isGameOver, setIsGameOver }) => {
 
   const board = boardDetails?.board;
   const boardSize = boardDetails?.width * boardDetails?.height;
+  const highestScore = leaderBoard?.highestScore;
 
   const handleGameOver = () => {
     setRobotPos();
     setIsGameOver(true);
+    handleTopScore(player?.name, score);
   };
 
   // Timer hook
@@ -114,7 +117,7 @@ const Game = ({ player, isGameOver, setIsGameOver }) => {
     setIsGameOver(false);
     setReached(true);
     setScore(0);
-    start(60);
+    start(boardDetails?.timeLimit);
   };
 
   useEffect(() => {
@@ -135,10 +138,14 @@ const Game = ({ player, isGameOver, setIsGameOver }) => {
   }, []);
 
   return (
-    <div>
+    <div style={{ flex: "4", alignItems: "center" }}>
       <div className="container">
         <div className="board">
-          <BoardHeader score={score} timeLeft={timeLeft} />
+          <BoardHeader
+            score={score}
+            timeLeft={timeLeft}
+            highestScore={highestScore}
+          />
 
           {isGameOver && (
             <Modal playerName={player?.name} handleNewGame={handleNewGame} />

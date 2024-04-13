@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import Game from "./components/Game";
+import { LeaderBoard } from "./components/LeaderBoard";
 
 function App() {
   // const [players, setPlayers] = useState([]);
-  const [isGameOver, setIsGameOver] = useState(true);
   const [leaderBoard, setLeaderBoard] = useState({
     highestScore: 0,
+    lowestScore: 0,
     rankings: [],
   });
   const [player, setPlayer] = useState();
@@ -20,19 +21,54 @@ function App() {
     } catch (error) {
       console.log(error);
     }
+
+    const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
+    if (leaderBoard) {
+      setLeaderBoard(leaderBoard);
+    }
   }, []);
+
+  const handleTopScore = (username, score = 0) => {
+    if (username && score) {
+      // let lowestScore =
+      // leaderBoard?.lowestScore < score ? leaderBoard?.lowestScore : score;
+      let rankings = [...leaderBoard.rankings, { username, score }].sort(
+        (a, b) => b.score - a.score
+      );
+      let highestScore = Math.max(leaderBoard?.highestScore, score);
+
+      let newLeaderBoard = {
+        highestScore,
+        // lowestScore,
+        rankings,
+      };
+
+      setLeaderBoard(newLeaderBoard);
+
+      localStorage.setItem("leaderBoard", JSON.stringify(newLeaderBoard));
+    }
+  };
 
   return (
     <>
-      <div>
-        {console.log(player)}
-        <button>LeaderBoard</button>
+      <div className="nav">
+        {/* <button onClick={() => setShowLeaderBoard((prev) => !prev)}>
+          Leader Board
+        </button> */}
       </div>
-      <Game
-        player={player}
-        isGameOver={isGameOver}
-        setIsGameOver={setIsGameOver}
-      />
+
+      <div
+        style={{
+          display: "flex",
+        }}
+      >
+        <Game
+          player={player}
+          leaderBoard={leaderBoard}
+          handleTopScore={handleTopScore}
+        />
+        <LeaderBoard rankings={leaderBoard?.rankings} />
+      </div>
     </>
   );
 }

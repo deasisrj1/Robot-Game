@@ -9,6 +9,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
 .square {
   background: #fff;
   border: 2px solid black;
@@ -61,8 +66,8 @@
 .modal-background {
   background-color: rgba(0, 0, 0, 0.2);
   width: 100vw;
-  height: 90vh;
-  z-index: 0;
+  height: 100vh;
+  z-index: 10;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -77,6 +82,17 @@
   z-index: -1;
   border-radius: 10px;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
+.nav {
+  background-color: white;
+  height: 5vh;
+  width: 100vw;
+  z-index: 10;
+  position: relative;
+  padding: 5px;
+  line-height: 5vh;
+  margin-bottom: 5vh;
 }
 
 .flex {
