@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import MovementButtons from "./MovementButtons";
 import GameBoard from "./GameBoard";
 import { BoardHeader } from "./BoardHeader";
+import { LeaderBoard } from "./LeaderBoard";
 
 const Game = ({ player, leaderBoard, handleTopScore }) => {
   const [isGameOver, setIsGameOver] = useState(true);
@@ -15,6 +16,7 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
   const [score, setScore] = useState(0);
   const [target, setTarget] = useState();
   const [targetPos, setTargetPos] = useState();
+  const [userName, setUsername] = useState(player?.name);
 
   const board = boardDetails?.board;
   const boardSize = boardDetails?.width * boardDetails?.height;
@@ -23,7 +25,7 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
   const handleGameOver = () => {
     setRobotPos();
     setIsGameOver(true);
-    handleTopScore(player?.name, score);
+    handleTopScore(userName, score);
   };
 
   // Timer hook
@@ -148,7 +150,11 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
           />
 
           {isGameOver && (
-            <Modal playerName={player?.name} handleNewGame={handleNewGame} />
+            <Modal
+              playerName={userName}
+              setUsername={setUsername}
+              handleNewGame={handleNewGame}
+            />
           )}
 
           <div style={{ width: `${100 * boardDetails?.width}px` }}>
@@ -167,6 +173,7 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
             handleForward={handleForward}
           />
         </div>
+        <LeaderBoard rankings={leaderBoard?.rankings} />
       </div>
     </div>
   );

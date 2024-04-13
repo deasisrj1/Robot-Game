@@ -3,25 +3,21 @@ import Game from "./components/Game";
 import { LeaderBoard } from "./components/LeaderBoard";
 
 function App() {
-  // const [players, setPlayers] = useState([]);
   const [leaderBoard, setLeaderBoard] = useState({
     highestScore: 0,
     lowestScore: 0,
     rankings: [],
   });
-  const [player, setPlayer] = useState();
+  const player = {
+    name: "Player 1",
+    robot: {
+      skin: "Wall-E-icon.png",
+      type: "robot",
+      rotation: 180,
+    },
+  };
 
   useEffect(() => {
-    try {
-      fetch("./player1.json")
-        .then((response) => response.json())
-        .then((data) => {
-          setPlayer(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-
     const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
     if (leaderBoard) {
       setLeaderBoard(leaderBoard);
@@ -30,8 +26,6 @@ function App() {
 
   const handleTopScore = (username, score = 0) => {
     if (username && score) {
-      // let lowestScore =
-      // leaderBoard?.lowestScore < score ? leaderBoard?.lowestScore : score;
       let rankings = [...leaderBoard.rankings, { username, score }].sort(
         (a, b) => b.score - a.score
       );
@@ -39,7 +33,6 @@ function App() {
 
       let newLeaderBoard = {
         highestScore,
-        // lowestScore,
         rankings,
       };
 
@@ -52,11 +45,8 @@ function App() {
   return (
     <>
       <div className="nav">
-        {/* <button onClick={() => setShowLeaderBoard((prev) => !prev)}>
-          Leader Board
-        </button> */}
+        <h1>ROBOT GAME</h1>
       </div>
-
       <div
         style={{
           display: "flex",
@@ -67,7 +57,6 @@ function App() {
           leaderBoard={leaderBoard}
           handleTopScore={handleTopScore}
         />
-        <LeaderBoard rankings={leaderBoard?.rankings} />
       </div>
     </>
   );

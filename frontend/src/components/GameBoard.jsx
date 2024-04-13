@@ -10,13 +10,13 @@ const GameBoard = ({ board, robot, robotPos, target, targetPos, reached }) => {
                 transform: `rotate(${robot?.rotation}deg)`,
                 transition: `${reached ? "" : "transform 1s"}`,
               }}
-              src={`/${robot?.skin}`}
+              src={`${robot?.skin ? `/${robot?.skin}` : ""}`}
               alt={`${robot?.type}`}
             />
           ) : i === targetPos ? (
             <img
               className="square-img"
-              src={`/${target?.skin}`}
+              src={`${target?.skin ? `/${target?.skin}` : ""}`}
               alt={`${target?.type}`}
             />
           ) : (
