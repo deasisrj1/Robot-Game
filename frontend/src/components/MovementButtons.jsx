@@ -6,21 +6,22 @@ const MovementButtons = ({ handleDirection, handleForward }) => {
         className="move-buttons"
         onClick={() => handleDirection("LEFT")}
       >
-        left
+        ⟲
       </button>
+
       <button
         //   disabled={isGameOver}
         onClick={handleForward}
         className="move-buttons"
       >
-        forward
+        ↑
       </button>
       <button
         //   disabled={isGameOver}
         onClick={() => handleDirection("RIGHT")}
         className="move-buttons"
       >
-        right
+        ⟳
       </button>
     </div>
   );

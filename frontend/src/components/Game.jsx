@@ -32,9 +32,8 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
   const { timeLeft, start, stopTime } = useTimer(handleGameOver);
 
   /**
-   * This function creates a random number from 0 to the range upTo
+   * getRandomPosition - creates a random number from 0 to the range upTo
    * excluding numbers that are in the array of numbers from without
-   *
    * @param {*} upTo - range of number we want to find
    * @param {*} without - numbers to exclude from random number generator
    * @returns
@@ -47,6 +46,12 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     return numbers[Math.floor(Math.random() * numbers.length)];
   };
 
+  /**
+   * handleDirection - add or subtract 90 degrees to the robots rotation
+   * @param {*} rotate - direction of rotation
+   *                      - LEFT  (90 degrees counter-clockwise)
+   *                      - RIGHT (90 degrees clockwise)
+   */
   const handleDirection = (rotate) => {
     let rotation = robot?.rotation;
     setReached(false);
@@ -59,6 +64,14 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     setRobot((prev) => ({ ...prev, rotation }));
   };
 
+  /**
+   * handleForward - moves the robot forward depending on the direction it is facing
+   *               - the direction is determined by the robots current rotation,
+   *                 the modulo of the robots current rotation from 360 degrees.
+   *                 After the modulo if the rotation is less that 0 we add 360 degrees
+   *               - 180 = NORTH, 0 = SOUTH, 270 = EAST, 90 = WEST
+   *               - Deals with robot acquiring a target and if moving robot is out of bounds
+   */
   const handleForward = () => {
     setReached(false);
     const boardWidth = boardDetails?.width;
@@ -110,6 +123,9 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     }
   };
 
+  /**
+   * handleNewGame - initializes a new game
+   */
   const handleNewGame = () => {
     let robotPos = Math.floor(boardSize / 2);
     setRobotPos(robotPos);

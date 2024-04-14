@@ -115,6 +115,11 @@ body {
   transform: translate(-50%, -50%);
 }
 .move-buttons {
+  width: 70px;
+  height: 70px;
   margin-top: 10px;
-  margin-left: 5px;
+  margin-left: 10px;
+  font-size: 40px;
+  padding: 0;
+  line-height: 0px;
 }

@@ -8,10 +8,8 @@ const Modal = ({ playerName, handleNewGame, setUsername }) => {
             <input
               name="username"
               defaultValue={playerName}
-              // value={playerName}
               onChange={(e) => setUsername(e.target.value)}
             ></input>
-            {/* <h4>{playerName}</h4> */}
             <div>
               <button style={{ marginTop: "25px" }} onClick={handleNewGame}>
                 New Game
