@@ -1,4 +1,4 @@
-export const BoardHeader = ({ score, timeLeft, highestScore }) => {
+const BoardHeader = ({ score, timeLeft, highestScore }) => {
   return (
     <div className="board-header">
       <span>Score: {score}</span>
@@ -12,3 +12,5 @@ export const BoardHeader = ({ score, timeLeft, highestScore }) => {
     </div>
   );
 };
+
+export default BoardHeader;

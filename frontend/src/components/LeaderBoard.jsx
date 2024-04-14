@@ -1,4 +1,4 @@
-export const LeaderBoard = ({ rankings }) => {
+const LeaderBoard = ({ rankings }) => {
   return (
     <div style={{ flex: "1" }}>
       <h1>Leader Board</h1>
@@ -15,3 +15,5 @@ export const LeaderBoard = ({ rankings }) => {
     </div>
   );
 };
+
+export default LeaderBoard;

@@ -4,8 +4,8 @@ import useTimer from "../hooks/useTimer";
 import Modal from "./Modal";
 import MovementButtons from "./MovementButtons";
 import GameBoard from "./GameBoard";
-import { BoardHeader } from "./BoardHeader";
-import { LeaderBoard } from "./LeaderBoard";
+import BoardHeader from "./BoardHeader";
+import LeaderBoard from "./LeaderBoard";
 import getRandomPosition from "../utils/getRandomPosition";
 import getNewPosition from "../utils/getNewPosition";
 
@@ -26,11 +26,11 @@ const Game = () => {
     },
   });
   const [reached, setReached] = useState(false);
-  const [robot, setRobot] = useState();
-  const [robotPos, setRobotPos] = useState();
+  const [robot, setRobot] = useState({});
+  const [robotPos, setRobotPos] = useState(null);
   const [score, setScore] = useState(0);
-  const [target, setTarget] = useState();
-  const [targetPos, setTargetPos] = useState();
+  const [target, setTarget] = useState({});
+  const [targetPos, setTargetPos] = useState(null);
 
   const board = boardDetails?.board;
   const boardSize = boardDetails?.width * boardDetails?.height;
@@ -132,6 +132,9 @@ const Game = () => {
     setRobot(player?.robot);
   }, [isGameOver]);
 
+  /* Making mock network request for a future enpoint to get a custom game levels */
+  // TODO: Create custom hook to get Levels
+  // TODO: Create custom hook to get LeaderBoard
   useEffect(() => {
     try {
       fetch("./defaultLevel.json")
@@ -142,9 +145,6 @@ const Game = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
-
-  useEffect(() => {
     const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
     if (leaderBoard) {
       setLeaderBoard(leaderBoard);
