@@ -6,17 +6,31 @@ import MovementButtons from "./MovementButtons";
 import GameBoard from "./GameBoard";
 import { BoardHeader } from "./BoardHeader";
 import { LeaderBoard } from "./LeaderBoard";
+import getRandomPosition from "../utils/getRandomPosition";
+import getNewPosition from "../utils/getNewPosition";
 
-const Game = ({ player, leaderBoard, handleTopScore }) => {
-  const [isGameOver, setIsGameOver] = useState(true);
+const Game = () => {
   const [boardDetails, setBoardDetails] = useState({});
+  const [isGameOver, setIsGameOver] = useState(true);
+  const [leaderBoard, setLeaderBoard] = useState({
+    highestScore: 0,
+    lowestScore: 0,
+    rankings: [],
+  });
+  const [player, setPlayer] = useState({
+    name: "Player 1",
+    robot: {
+      skin: "Wall-E-icon.png",
+      type: "robot",
+      rotation: 180,
+    },
+  });
   const [reached, setReached] = useState(false);
   const [robot, setRobot] = useState();
   const [robotPos, setRobotPos] = useState();
   const [score, setScore] = useState(0);
   const [target, setTarget] = useState();
   const [targetPos, setTargetPos] = useState();
-  const [userName, setUsername] = useState(player?.name);
 
   const board = boardDetails?.board;
   const boardSize = boardDetails?.width * boardDetails?.height;
@@ -25,25 +39,25 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
   const handleGameOver = () => {
     setRobotPos();
     setIsGameOver(true);
-    handleTopScore(userName, score);
+    handleTopScore(player?.name, score);
   };
 
   // Timer hook
   const { timeLeft, start, stopTime } = useTimer(handleGameOver);
 
-  /**
-   * getRandomPosition - creates a random number from 0 to the range upTo
-   * excluding numbers that are in the array of numbers from without
-   * @param {*} upTo - range of number we want to find
-   * @param {*} without - numbers to exclude from random number generator
-   * @returns
-   */
-  const getRandomPosition = (upTo, without = []) => {
-    const numbers = Array(upTo)
-      .fill()
-      .map((_, index) => index)
-      .filter((num) => !without.includes(num));
-    return numbers[Math.floor(Math.random() * numbers.length)];
+  const handleTopScore = (username, score = 0) => {
+    if (username && score) {
+      let rankings = [...leaderBoard.rankings, { username, score }].sort(
+        (a, b) => b.score - a.score
+      );
+      let highestScore = Math.max(leaderBoard?.highestScore, score);
+      let newLeaderBoard = {
+        highestScore,
+        rankings,
+      };
+      setLeaderBoard(newLeaderBoard);
+      localStorage.setItem("leaderBoard", JSON.stringify(newLeaderBoard));
+    }
   };
 
   /**
@@ -60,7 +74,6 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     } else if (rotate === "RIGHT") {
       rotation = rotation + 90;
     }
-
     setRobot((prev) => ({ ...prev, rotation }));
   };
 
@@ -80,35 +93,12 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     let rotation = robot?.rotation % 360;
     if (rotation < 0) rotation = rotation + 360;
 
-    switch (rotation) {
-      case 180:
-        if (newPosition - boardWidth < 0) {
-          outOfBounds = true;
-          break;
-        }
-        newPosition = robotPos - boardWidth;
-        break;
-      case 0:
-        newPosition = robotPos + boardWidth;
-        if (newPosition >= boardSize) {
-          outOfBounds = true;
-        }
-        break;
-      case 90:
-        if ((newPosition % boardWidth) - 1 < 0) {
-          outOfBounds = true;
-          break;
-        }
-        newPosition = robotPos - 1;
-        break;
-      case 270:
-        if (newPosition % boardWidth === boardWidth - 1) {
-          outOfBounds = true;
-          break;
-        }
-        newPosition = robotPos + 1;
-        break;
-    }
+    [newPosition, outOfBounds] = getNewPosition(
+      newPosition,
+      rotation,
+      boardSize,
+      boardWidth
+    );
     setRobotPos(newPosition);
     if (outOfBounds) {
       stopTime();
@@ -131,7 +121,6 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     setRobotPos(robotPos);
     let targetPos = getRandomPosition(boardSize, [robotPos]);
     setTargetPos(targetPos);
-
     setIsGameOver(false);
     setReached(true);
     setScore(0);
@@ -155,6 +144,13 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
+    if (leaderBoard) {
+      setLeaderBoard(leaderBoard);
+    }
+  }, []);
+
   return (
     <div style={{ flex: "4", alignItems: "center" }}>
       <div className="container">
@@ -167,8 +163,8 @@ const Game = ({ player, leaderBoard, handleTopScore }) => {
 
           {isGameOver && (
             <Modal
-              playerName={userName}
-              setUsername={setUsername}
+              playerName={player?.name}
+              setPlayer={setPlayer}
               handleNewGame={handleNewGame}
             />
           )}

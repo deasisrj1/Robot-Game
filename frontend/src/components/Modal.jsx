@@ -1,4 +1,8 @@
-const Modal = ({ playerName, handleNewGame, setUsername }) => {
+const Modal = ({ playerName, handleNewGame, setPlayer }) => {
+  const handleNameChange = (e) => {
+    setPlayer((prev) => ({ ...prev, name: e.target.value }));
+  };
+
   return (
     <div>
       <div className="modal-background">
@@ -8,7 +12,7 @@ const Modal = ({ playerName, handleNewGame, setUsername }) => {
             <input
               name="username"
               defaultValue={playerName}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => handleNameChange(e)}
             ></input>
             <div>
               <button style={{ marginTop: "25px" }} onClick={handleNewGame}>
