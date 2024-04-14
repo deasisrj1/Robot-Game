@@ -15,3 +15,9 @@ $ npm run dev
 Inside the file `/fronend/public/defaultLevel.json` contains a JSON object of what the structre of a level may look like. Each level could be implemented with customizable width, height and time durations. The target can be set to an array to allow multiple targets. Board is an array of tile objects which can hold different fills of obstacle tiles.
 
 Inside the file `/fronend/public/player1.json` is what the structure of a player may look like. Each player has a name and each player owns one to many robots. The robots can be customized by changing their skin attribute.
+
+### DEMO
+
+https://github.com/deasisrj1/Robot-Game/assets/29108026/cf87e911-165f-4597-ab9f-f2c2000fdab9
+
+
